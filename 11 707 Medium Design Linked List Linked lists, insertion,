@@ -1,0 +1,125 @@
+
+class MyLinkedList {
+
+private:
+    struct Node {
+        int val;
+        Node* next;
+
+        Node(int x) {
+            val = x;
+            next = nullptr;
+        }
+    };
+
+    Node* head;
+    int size;
+
+public:
+    // Initialize the linked list
+    MyLinkedList() {
+        head = nullptr;
+        size = 0;
+    }
+
+    // Get value at a specific index
+    int get(int index) {
+        if (index < 0 || index >= size) {
+            return -1;
+        }
+
+        Node* current = head;
+
+        for (int i = 0; i < index; i++) {
+            current = current->next;
+        }
+
+        return current->val;
+    }
+
+    // Add node at the beginning
+    void addAtHead(int val) {
+        Node* newNode = new Node(val);
+
+        newNode->next = head;
+        head = newNode;
+
+        size++;
+    }
+
+    // Add node at the end
+    void addAtTail(int val) {
+        Node* newNode = new Node(val);
+
+        if (head == nullptr) {
+            head = newNode;
+        }
+        else {
+            Node* current = head;
+
+            while (current->next != nullptr) {
+                current = current->next;
+            }
+
+            current->next = newNode;
+        }
+
+        size++;
+    }
+
+    // Add node at a specific index
+    void addAtIndex(int index, int val) {
+        if (index < 0) {
+            index = 0;
+        }
+
+        if (index > size) {
+            return;
+        }
+
+        if (index == 0) {
+            addAtHead(val);
+            return;
+        }
+
+        Node* current = head;
+
+        for (int i = 0; i < index - 1; i++) {
+            current = current->next;
+        }
+
+        Node* newNode = new Node(val);
+
+        newNode->next = current->next;
+        current->next = newNode;
+
+        size++;
+    }
+
+    // Delete node at a specific index
+    void deleteAtIndex(int index) {
+        if (index < 0 || index >= size) {
+            return;
+        }
+
+        Node* temp;
+
+        if (index == 0) {
+            temp = head;
+            head = head->next;
+        }
+        else {
+            Node* current = head;
+
+            for (int i = 0; i < index - 1; i++) {
+                current = current->next;
+            }
+
+            temp = current->next;
+            current->next = temp->next;
+        }
+
+        delete temp;
+        size--;
+    }
+};
